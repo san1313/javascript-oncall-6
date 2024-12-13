@@ -1,0 +1,50 @@
+import InputValidator from './InputValidator';
+import MESSAGE from '../constant/message';
+import DATE from '../constant/date';
+import EMPLOYEE from '../constant/employee';
+
+const Parser = {
+  parseDateInput(input) {
+    if (!InputValidator.validateDate(input)) {
+      throw new Error(MESSAGE.ERROR.INVALID_INPUT);
+    }
+    let [month, day] = input.split(',');
+    month = Number(month);
+    day = DATE.DAY.indexOf(day);
+    if (DATE.MONTH_MIN > month || DATE.MONTH_MAX < month) {
+      throw new Error(MESSAGE.ERROR.INVALID_INPUT);
+    }
+    return { month, day };
+  },
+  parseEmployeeName(input) {
+    if (!InputValidator.validateEmployeeName(input)) throw new Error(MESSAGE.ERROR.INVALID_INPUT);
+    const employees = input.split(',');
+    const size = employees.length;
+    employees.forEach((employee) => {
+      const nameLength = employee.length;
+      if (nameLength < EMPLOYEE.NAME_LENGTH_MIN || nameLength > EMPLOYEE.NAME_LENGTH_MAX) {
+        throw new Error(MESSAGE.ERROR.INVALID_INPUT);
+      }
+    });
+    if (size !== new Set(employees).size || size < EMPLOYEE.SIZE_MIN || size > EMPLOYEE.SIZE_MAX) {
+      throw new Error(MESSAGE.ERROR.INVALID_INPUT);
+    }
+    return employees;
+  },
+  parseWorkTable(data) {
+    const {
+      month, date, day, isWeekend, name,
+    } = data;
+    const form = MESSAGE.OUTPUT.RESULT_FORM;
+    let weekend = '';
+    if (isWeekend) weekend = DATE.HOLIDAY_MARK;
+    const msg = form.replace('$0', month)
+      .replace('$1', date)
+      .replace('$2', day)
+      .replace('$3', weekend)
+      .replace('$4', name);
+    return msg;
+  },
+};
+
+export default Parser;
