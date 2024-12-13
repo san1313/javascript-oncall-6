@@ -9,10 +9,11 @@ class App {
   #onCall;
 
   async run() {
-    while (this.#step !== 4) {
+    while (this.#step !== 99) {
       if (this.#step === 0) await this.readDate();
       else if (this.#step === 1) await this.readEmployee();
       else if (this.#step === 2) this.initOnCall();
+      else if (this.#step === 3) this.printWorkTableData();
     }
   }
 
@@ -43,6 +44,12 @@ class App {
     const { date, weekday, weekend } = this.#inputData;
     this.#onCall = new OnCall(date, weekday, weekend);
     this.#step = 3;
+  }
+
+  printWorkTableData() {
+    const dataArr = this.#onCall.createWorkTableData();
+    OutputView.printWorkTable(dataArr);
+    this.#step = 99;
   }
 
   async readWeekday() {

@@ -33,15 +33,15 @@ const Parser = {
   },
   parseWorkTable(data) {
     const {
-      month, date, day, isWeekend, name,
+      month, date, day, isWeekend: isHoliday, name,
     } = data;
     const form = MESSAGE.OUTPUT.RESULT_FORM;
-    let weekend = '';
-    if (isWeekend) weekend = DATE.HOLIDAY_MARK;
+    let holiday = '';
+    if (isHoliday) holiday = DATE.HOLIDAY_MARK;
     const msg = form.replace('$0', month)
       .replace('$1', date)
-      .replace('$2', day)
-      .replace('$3', weekend)
+      .replace('$2', DATE.DAY[day])
+      .replace('$3', holiday)
       .replace('$4', name);
     return msg;
   },

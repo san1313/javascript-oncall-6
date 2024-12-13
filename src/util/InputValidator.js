@@ -8,10 +8,10 @@ const InputValidator = {
     return input.match(regex);
   },
   validateEmployeeList(weekday, weekend) {
-    const weekdayStr = JSON.stringify(weekday.sort());
-    const weekendStr = JSON.stringify(weekend.sort());
+    const weekdayStr = JSON.stringify([...weekday].sort());
+    const weekendStr = JSON.stringify([...weekend].sort());
     return weekdayStr === weekendStr;
-  }
+  },
 };
 
 export default InputValidator;

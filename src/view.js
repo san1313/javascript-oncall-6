@@ -1,4 +1,5 @@
 import { Console } from '@woowacourse/mission-utils';
+import * as fs from 'node:fs';
 import MESSAGE from './constant/message';
 import Parser from './util/Parser';
 
@@ -14,6 +15,11 @@ const InputView = {
   async readWeekEnd() {
     const input = await Console.readLineAsync(MESSAGE.INPUT.WEEKEND);
     return Parser.parseEmployeeName(input);
+  },
+  readDateData() {
+    const dataJSON = fs.readFileSync('data/date.json', 'utf-8');
+    const data = JSON.parse(dataJSON);
+    return data;
   },
 };
 
