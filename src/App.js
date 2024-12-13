@@ -1,5 +1,7 @@
 import { InputView, OutputView } from './view';
 import OnCall from './class/OnCall';
+import InputValidator from './util/InputValidator';
+import MESSAGE from './constant/message';
 
 class App {
   #step = 0;
@@ -28,6 +30,9 @@ class App {
     try {
       await this.readWeekday();
       await this.readWeekend();
+      if (!InputValidator.validateEmployeeList(this.#inputData.weekday, this.#inputData.weekend)) {
+        throw new Error(MESSAGE.ERROR.INVALID_INPUT);
+      }
       this.#step = 2;
     } catch (err) {
       OutputView.printErrorMessage(err);
